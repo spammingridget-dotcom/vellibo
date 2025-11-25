@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vellibo Dashboard</title>
+<title>Vellibo Platform</title>
 
 <style>
 
@@ -11,9 +11,71 @@
         margin: 0;
         background: #fff7d1;
         font-family: "Inter", sans-serif;
-        display: flex;
         height: 100vh;
         overflow: hidden;
+    }
+
+    /* CENTER LOGIN BOX */
+    #loginBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 330px;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #loginBox h2 {
+        margin: 0;
+        font-size: 26px;
+        text-align: center;
+        color: #d29a00;
+        text-shadow: 0 0 6px rgba(255,180,0,0.3);
+    }
+
+    input {
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid #ffd34f;
+        outline: none;
+        font-size: 16px;
+    }
+
+    input:focus {
+        border-color: #e5b400;
+    }
+
+    .btn {
+        padding: 12px;
+        background: #ffd34f;
+        color: black;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn:hover { background: #f5c42b; }
+
+    #error {
+        color: red;
+        font-size: 14px;
+        text-align: center;
+        display: none;
+    }
+
+    /* DASHBOARD (hidden at first) */
+    #dashboard {
+        display: none;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
     }
 
     /* SIDEBAR */
@@ -24,7 +86,6 @@
         flex-direction: column;
         align-items: center;
         padding-top: 20px;
-        gap: 20px;
     }
 
     .btn-home {
@@ -42,24 +103,23 @@
         height: 40px;
         background: #000;
         border-radius: 50%;
-        margin-top: auto;
-        margin-bottom: 20px;
         cursor: pointer;
         transition: 0.2s;
+        margin-top: auto;
+        margin-bottom: 20px;
     }
     .btn-logout:hover { transform: scale(1.1); }
 
-    /* MAIN AREA */
+    /* MAIN */
     .main {
         flex: 1;
         padding: 20px;
     }
 
-    /* TABS */
     .tabs {
         display: flex;
         gap: 15px;
-        padding: 10px 0;
+        padding-bottom: 10px;
     }
 
     .tab {
@@ -67,135 +127,150 @@
         padding: 12px 22px;
         border-radius: 10px;
         font-weight: 600;
-        color: #1a1a1a;
         cursor: pointer;
         transition: 0.2s;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    }
-    .tab:hover {
-        background: #ffd34f;
-        transform: translateY(-3px);
-    }
-    .tab.active {
-        background: #ffd34f;
-        box-shadow: 0 0 10px rgba(255,210,80,0.7);
     }
 
-    /* PAGE CONTAINERS */
+    .tab:hover { background: #ffd34f; }
+    .tab.active { background: #ffd34f; }
+
     .page {
         display: none;
+        background: white;
+        border-radius: 14px;
         height: calc(100% - 70px);
-        margin-top: 10px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        padding: 20px;
-        animation: fade 0.25s ease;
-    }
-
-    @keyframes fade {
-        from { opacity: 0; transform: translateY(5px); }
-        to { opacity: 1; transform: translateY(0); }
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     }
 
     .title {
         font-size: 32px;
-        font-weight: 800;
-        color: #1a1a1a;
+        font-weight: bold;
+        color: #e0a200;
     }
 
 </style>
 </head>
-
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <div class="btn-home" onclick="openPage('Home')"></div>
-    <div style="flex:1;"></div>
-    <div class="btn-logout"></div>
+<!-- LOGIN BOX -->
+<div id="loginBox">
+    <h2>Vellibo Login</h2>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <div id="error">Invalid username or password</div>
+    <div class="btn" onclick="login()">Login</div>
 </div>
 
-<!-- MAIN -->
-<div class="main">
+<!-- DASHBOARD -->
+<div id="dashboard">
 
-    <!-- TABS -->
-    <div class="tabs">
-        <div class="tab active" onclick="openPage('Home')">Home</div>
-        <div class="tab" onclick="openPage('Payment')">Payment</div>
-        <div class="tab" onclick="openPage('Charts')">Charts</div>
-        <div class="tab" onclick="openPage('Members')">Members</div>
-        <div class="tab" onclick="openPage('Tasks')">Tasks</div>
-        <div class="tab" onclick="openPage('Applications')">Applications</div>
-        <div class="tab" onclick="openPage('BrainDump')">BrainDump</div>
-        <div class="tab" onclick="openPage('Studio Website')">Studio Website</div>
-        <div class="tab" onclick="openPage('Settings')">Settings</div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="btn-home" onclick="openPage('Home')"></div>
+        <div style="flex:1;"></div>
+        <div class="btn-logout" onclick="logout()"></div>
     </div>
 
-    <!-- PAGE BOXES -->
+    <!-- MAIN AREA -->
+    <div class="main">
 
-    <div class="page" id="Home" style="display:block; background:white;">
-        <div class="title">Home</div>
-        Coming soon...
-    </div>
+        <div class="tabs">
+            <div class="tab active" onclick="openPage('Home')">Home</div>
+            <div class="tab" onclick="openPage('Payment')">Payment</div>
+            <div class="tab" onclick="openPage('Charts')">Charts</div>
+            <div class="tab" onclick="openPage('Members')">Members</div>
+            <div class="tab" onclick="openPage('Tasks')">Tasks</div>
+            <div class="tab" onclick="openPage('Applications')">Applications</div>
+            <div class="tab" onclick="openPage('BrainDump')">BrainDump</div>
+            <div class="tab" onclick="openPage('Studio Website')">Studio Website</div>
+            <div class="tab" onclick="openPage('Settings')">Settings</div>
+        </div>
 
-    <div class="page" id="Payment" style="background:#ffe17a;">
-        <div class="title">Payment</div>
-        Coming soon...
-    </div>
+        <!-- PAGES -->
 
-    <div class="page" id="Charts" style="background:#97c6ff;">
-        <div class="title">Charts</div>
-        Coming soon...
-    </div>
+        <div class="page" id="Home" style="display:block;">
+            <div class="title">Welcome, <span id="userDisplay"></span></div>
+            <p style="font-size:20px; margin-top:5px;">Coming soon...</p>
 
-    <div class="page" id="Members" style="background:#b7f7b7;">
-        <div class="title">Members</div>
-        Coming soon...
-    </div>
+            <div class="btn" style="margin-top:15px; width:200px;"
+                onclick="openPage('Settings')">
+                Go to Settings
+            </div>
+        </div>
 
-    <div class="page" id="Tasks" style="background:#ffc987;">
-        <div class="title">Tasks</div>
-        Coming soon...
-    </div>
+        <div class="page" id="Payment"><div class="title">Payment</div></div>
+        <div class="page" id="Charts"><div class="title">Charts</div></div>
+        <div class="page" id="Members"><div class="title">Members</div></div>
+        <div class="page" id="Tasks"><div class="title">Tasks</div></div>
+        <div class="page" id="Applications"><div class="title">Applications</div></div>
+        <div class="page" id="BrainDump"><div class="title">BrainDump</div></div>
+        <div class="page" id="Studio Website"><div class="title">Studio Website</div></div>
+        <div class="page" id="Settings"><div class="title">Settings</div></div>
 
-    <div class="page" id="Applications" style="background:#ff9f9f;">
-        <div class="title">Applications</div>
-        Coming soon...
-    </div>
-
-    <div class="page" id="BrainDump" style="background:#d6b0ff;">
-        <div class="title">BrainDump</div>
-        Coming soon...
-    </div>
-
-    <div class="page" id="Studio Website" style="background:#9ffaff;">
-        <div class="title">Studio Website</div>
-        Coming soon...
-    </div>
-
-    <div class="page" id="Settings" style="background:#e0e0e0;">
-        <div class="title">Settings</div>
-        Coming soon...
     </div>
 
 </div>
 
-<!-- JAVASCRIPT -->
 <script>
-function openPage(name) {
-    // Hide all pages
-    document.querySelectorAll(".page").forEach(p => p.style.display = "none");
 
-    // Show selected page
+// MANUAL USERS
+const users = [
+    { username: "mopy", password: "mopy", role: "owner" },
+    { username: "pim", password: "pim", role: "owner" }
+];
+
+// LOGIN FUNCTION
+function login() {
+    const u = document.getElementById("username").value.trim().toLowerCase();
+    const p = document.getElementById("password").value;
+
+    const match = users.find(x => x.username === u && x.password === p);
+
+    if (!match) {
+        document.getElementById("error").style.display = "block";
+        return;
+    }
+
+    // Save user
+    localStorage.setItem("velliboUser", JSON.stringify(match));
+
+    // Show dashboard
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("dashboard").style.display = "flex";
+
+    document.getElementById("userDisplay").innerText = match.username;
+}
+
+// OPEN PAGE
+function openPage(name) {
+    document.querySelectorAll(".page").forEach(p => p.style.display = "none");
     document.getElementById(name).style.display = "block";
 
-    // Update active tab
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.querySelectorAll(".tab").forEach(t => {
         if (t.innerText === name) t.classList.add("active");
     });
 }
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem("velliboUser");
+    location.reload();
+}
+
+// AUTO LOGIN (if user already logged in)
+window.onload = () => {
+    const saved = JSON.parse(localStorage.getItem("velliboUser"));
+    if (saved) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("dashboard").style.display = "flex";
+        document.getElementById("userDisplay").innerText = saved.username;
+    }
+};
+
 </script>
 
 </body>
 </html>
+
