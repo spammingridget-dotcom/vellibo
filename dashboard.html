@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vellibo Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: #fff7d1;
+    font-family: "Inter", sans-serif;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 70px;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+.btn-home {
+    width: 40px; height: 40px;
+    background: #ffd34f;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.btn-logout {
+    width: 40px; height: 40px;
+    background: black;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+/* MAIN AREA */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+.tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.tab {
+    background: #ffe07c;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #ffd34f;
+}
+
+.page {
+    display: none;
+    background: white;
+    height: calc(100% - 70px);
+    margin-top: 10px;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #e0a200;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="btn-home" onclick="openPage('Home')"></div>
+    <div style="flex:1"></div>
+    <div class="btn-logout" onclick="logout()"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="tabs">
+        <div class="tab active" onclick="openPage('Home')">Home</div>
+        <div class="tab" onclick="openPage('Payment')">Payment</div>
+        <div class="tab" onclick="openPage('Charts')">Charts</div>
+        <div class="tab" onclick="openPage('Members')">Members</div>
+        <div class="tab" onclick="openPage('Tasks')">Tasks</div>
+        <div class="tab" onclick="openPage('Applications')">Applications</div>
+        <div class="tab" onclick="openPage('BrainDump')">BrainDump</div>
+        <div class="tab" onclick="openPage('Studio Website')">Studio Website</div>
+        <div class="tab" onclick="openPage('Settings')">Settings</div>
+    </div>
+
+    <!-- PAGES -->
+    <div class="page" id="Home" style="display:block;">
+        <div class="title">Welcome, <span id="username"></span></div>
+        Coming soon...
+        <br><br>
+        <div class="tab" onclick="openPage('Settings')">Go to Settings</div>
+    </div>
+
+    <div class="page" id="Payment"><div class="title">Payment</div></div>
+    <div class="page" id="Charts"><div class="title">Charts</div></div>
+    <div class="page" id="Members"><div class="title">Members</div></div>
+    <div class="page" id="Tasks"><div class="title">Tasks</div></div>
+    <div class="page" id="Applications"><div class="title">Applications</div></div>
+    <div class="page" id="BrainDump"><div class="title">BrainDump</div></div>
+    <div class="page" id="Studio Website"><div class="title">Studio Website</div></div>
+    <div class="page" id="Settings"><div class="title">Settings</div></div>
+
+</div>
+
+<script>
+// read username from URL
+const url = new URLSearchParams(window.location.search);
+const user = url.get("user");
+document.getElementById("username").innerText = user;
+
+// switch pages
+function openPage(name) {
+    document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
+    document.getElementById(name).style.display = "block";
+
+    document.querySelectorAll(".tab").forEach(t => {
+        if (t.innerText === name) t.classList.add("active");
+    });
+}
+
+// logout
+function logout() {
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
