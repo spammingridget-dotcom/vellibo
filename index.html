@@ -1,276 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
+<title>Vellibo Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vellibo Platform</title>
 
 <style>
+body {
+    margin: 0;
+    background: #fff7d1;
+    font-family: "Inter", sans-serif;
+}
 
-    body {
-        margin: 0;
-        background: #fff7d1;
-        font-family: "Inter", sans-serif;
-        height: 100vh;
-        overflow: hidden;
-    }
+#box {
+    width: 330px;
+    padding: 30px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-    /* CENTER LOGIN BOX */
-    #loginBox {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 330px;
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 14px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+h2 {
+    text-align: center;
+    margin: 0 0 15px 0;
+    color: #d29a00;
+}
 
-    #loginBox h2 {
-        margin: 0;
-        font-size: 26px;
-        text-align: center;
-        color: #d29a00;
-        text-shadow: 0 0 6px rgba(255,180,0,0.3);
-    }
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #ffd34f;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
 
-    input {
-        padding: 12px;
-        border-radius: 8px;
-        border: 2px solid #ffd34f;
-        outline: none;
-        font-size: 16px;
-    }
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #ffd34f;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-    input:focus {
-        border-color: #e5b400;
-    }
+.btn:hover { background: #f5c42b; }
 
-    .btn {
-        padding: 12px;
-        background: #ffd34f;
-        color: black;
-        text-align: center;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    .btn:hover { background: #f5c42b; }
-
-    #error {
-        color: red;
-        font-size: 14px;
-        text-align: center;
-        display: none;
-    }
-
-    /* DASHBOARD (hidden at first) */
-    #dashboard {
-        display: none;
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-        width: 70px;
-        background: #1a1a1a;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-    }
-
-    .btn-home {
-        width: 40px;
-        height: 40px;
-        background: #ffd34f;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    .btn-home:hover { transform: scale(1.1); }
-
-    .btn-logout {
-        width: 40px;
-        height: 40px;
-        background: #000;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: 0.2s;
-        margin-top: auto;
-        margin-bottom: 20px;
-    }
-    .btn-logout:hover { transform: scale(1.1); }
-
-    /* MAIN */
-    .main {
-        flex: 1;
-        padding: 20px;
-    }
-
-    .tabs {
-        display: flex;
-        gap: 15px;
-        padding-bottom: 10px;
-    }
-
-    .tab {
-        background: #ffe07c;
-        padding: 12px 22px;
-        border-radius: 10px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .tab:hover { background: #ffd34f; }
-    .tab.active { background: #ffd34f; }
-
-    .page {
-        display: none;
-        background: white;
-        border-radius: 14px;
-        height: calc(100% - 70px);
-        padding: 25px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
-
-    .title {
-        font-size: 32px;
-        font-weight: bold;
-        color: #e0a200;
-    }
-
+#error {
+    display: none;
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+}
 </style>
+
 </head>
 <body>
 
-<!-- LOGIN BOX -->
-<div id="loginBox">
+<div id="box">
     <h2>Vellibo Login</h2>
+
     <input id="username" placeholder="Username">
     <input id="password" type="password" placeholder="Password">
-    <div id="error">Invalid username or password</div>
+    <div id="error">Invalid login.</div>
+
     <div class="btn" onclick="login()">Login</div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <div class="btn-home" onclick="openPage('Home')"></div>
-        <div style="flex:1;"></div>
-        <div class="btn-logout" onclick="logout()"></div>
-    </div>
-
-    <!-- MAIN AREA -->
-    <div class="main">
-
-        <div class="tabs">
-            <div class="tab active" onclick="openPage('Home')">Home</div>
-            <div class="tab" onclick="openPage('Payment')">Payment</div>
-            <div class="tab" onclick="openPage('Charts')">Charts</div>
-            <div class="tab" onclick="openPage('Members')">Members</div>
-            <div class="tab" onclick="openPage('Tasks')">Tasks</div>
-            <div class="tab" onclick="openPage('Applications')">Applications</div>
-            <div class="tab" onclick="openPage('BrainDump')">BrainDump</div>
-            <div class="tab" onclick="openPage('Studio Website')">Studio Website</div>
-            <div class="tab" onclick="openPage('Settings')">Settings</div>
-        </div>
-
-        <!-- PAGES -->
-
-        <div class="page" id="Home" style="display:block;">
-            <div class="title">Welcome, <span id="userDisplay"></span></div>
-            <p style="font-size:20px; margin-top:5px;">Coming soon...</p>
-
-            <div class="btn" style="margin-top:15px; width:200px;"
-                onclick="openPage('Settings')">
-                Go to Settings
-            </div>
-        </div>
-
-        <div class="page" id="Payment"><div class="title">Payment</div></div>
-        <div class="page" id="Charts"><div class="title">Charts</div></div>
-        <div class="page" id="Members"><div class="title">Members</div></div>
-        <div class="page" id="Tasks"><div class="title">Tasks</div></div>
-        <div class="page" id="Applications"><div class="title">Applications</div></div>
-        <div class="page" id="BrainDump"><div class="title">BrainDump</div></div>
-        <div class="page" id="Studio Website"><div class="title">Studio Website</div></div>
-        <div class="page" id="Settings"><div class="title">Settings</div></div>
-
-    </div>
-
-</div>
-
 <script>
-
-// MANUAL USERS
+// Allowed users
 const users = [
-    { username: "mopy", password: "mopy", role: "owner" },
-    { username: "pim", password: "pim", role: "owner" }
+    { username: "mopy", password: "mopy" },
+    { username: "pim",  password: "pim" }
 ];
 
-// LOGIN FUNCTION
 function login() {
-    const u = document.getElementById("username").value.trim().toLowerCase();
-    const p = document.getElementById("password").value;
+    let u = document.getElementById("username").value.toLowerCase().trim();
+    let p = document.getElementById("password").value;
 
-    const match = users.find(x => x.username === u && x.password === p);
+    const found = users.find(x => x.username === u && x.password === p);
 
-    if (!match) {
+    if (!found) {
         document.getElementById("error").style.display = "block";
         return;
     }
 
-    // Save user
-    localStorage.setItem("velliboUser", JSON.stringify(match));
-
-    // Show dashboard
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("dashboard").style.display = "flex";
-
-    document.getElementById("userDisplay").innerText = match.username;
+    // Redirect to dashboard
+    window.location.href = "dashboard.html?user=" + found.username;
 }
-
-// OPEN PAGE
-function openPage(name) {
-    document.querySelectorAll(".page").forEach(p => p.style.display = "none");
-    document.getElementById(name).style.display = "block";
-
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".tab").forEach(t => {
-        if (t.innerText === name) t.classList.add("active");
-    });
-}
-
-// LOGOUT
-function logout() {
-    localStorage.removeItem("velliboUser");
-    location.reload();
-}
-
-// AUTO LOGIN (if user already logged in)
-window.onload = () => {
-    const saved = JSON.parse(localStorage.getItem("velliboUser"));
-    if (saved) {
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("dashboard").style.display = "flex";
-        document.getElementById("userDisplay").innerText = saved.username;
-    }
-};
-
 </script>
 
 </body>
 </html>
-
